@@ -12,7 +12,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <span class="text-[10px] uppercase font-semibold tracking-widest text-emerald-300">
-                        PEMERINTAH NEGERI MORELA & POKDARWIS
+                        PEMERINTAH NEGERI MORELLA & POKDARWIS
                     </span>
                     <h2 class="font-serif text-2xl font-bold tracking-tight text-white">E-TIKET WISATA RESMI</h2>
                 </div>
@@ -86,7 +86,7 @@
                     </svg>
                 </div>
                 <div class="font-mono text-xs text-stone-500">{{ $booking->qr_validation_code }}</div>
-                <p class="text-[10px] text-stone-400 text-center">Tunjukkan tiket ini kepada petugas di loket masuk Negeri Morela.</p>
+                <p class="text-[10px] text-stone-400 text-center">Tunjukkan tiket ini kepada petugas di loket masuk Negeri Morella.</p>
             </div>
         </div>
 

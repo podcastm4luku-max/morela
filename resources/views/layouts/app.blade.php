@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Morela Tourism - Jelajah Pesona Morela')</title>
-    <meta name="description" content="Portal Digital Pariwisata Desa Morela: Alam, Budaya & Masyarakat. Kolaborasi Program Pengabdian Mahasiswa Universitas Darussalam Ambon.">
+    <title>@yield('title', 'Negeri Morella - Jelajah Pesona Morela')</title>
+    <meta name="description" content="Portal Digital Pariwisata Negeri Morela: Alam, Budaya & Masyarakat. Kolaborasi Program Pengabdian Mahasiswa Universitas Darussalam Ambon.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,7 +44,7 @@
                     </div>
                     <div>
                         <div class="font-serif text-lg sm:text-xl font-bold tracking-tight text-white">
-                            MORELA TOURISM
+                           Negeri Morella
                         </div>
                         <p class="text-[10px] text-stone-400 tracking-wide uppercase">
                             Leihitu · Maluku Tengah
@@ -84,7 +84,7 @@
                     </a>
 
                     <!-- Menu Media Sosial di Navbar Utama -->
-                    <a href="{{ route('admin.social-media.index') }}" class="px-3 py-1.5 rounded-lg flex items-center gap-1.5 {{ request()->routeIs('admin.social-media.*') ? 'text-emerald-400 font-semibold bg-stone-800/80' : 'text-stone-300 hover:text-white hover:bg-stone-800/40' }}" title="Media Sosial Resmi Morela">
+                    <a href="{{ route('admin.social-media.index') }}" class="px-3 py-1.5 rounded-lg flex items-center gap-1.5 {{ request()->routeIs('admin.social-media.*') ? 'text-emerald-400 font-semibold bg-stone-800/80' : 'text-stone-300 hover:text-white hover:bg-stone-800/40' }}" title="Media Sosial Resmi Morella">
                         <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <circle cx="18" cy="5" r="3" stroke-width="2"/>
                             <circle cx="6" cy="12" r="3" stroke-width="2"/>
@@ -157,7 +157,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-xs">
                 <div class="space-y-3">
-                    <span class="font-serif text-lg font-bold text-white">MORELA TOURISM</span>
+                    <span class="font-serif text-lg font-bold text-white">NEGERI MORELLA</span>
                     <p class="text-stone-400">Portal Resmi Digitalisasi Pariwisata & Arsip Budaya Desa Morella, Leihitu, Maluku Tengah.</p>
                 </div>
                 <div class="space-y-2">
@@ -174,7 +174,6 @@
                 </div>
                 <div class="space-y-2">
                     <span class="font-semibold text-white uppercase">Kontak Balai Desa</span>
-                    <p class="text-stone-400">+62 812-3456-7800 (Sekretariat Negeri Morela)</p>
                 </div>
             </div>
             <div class="mt-8 pt-6 border-t border-stone-800 text-stone-500 text-center text-xs">

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Peta Wisata & Jelajah Negeri Morela - Admin Dashboard')
+@section('title', 'Peta Wisata & Jelajah Negeri Morella - Admin Dashboard')
 
 @section('content')
 <div class="space-y-8">
@@ -13,7 +13,7 @@
                 <span>Sistem Informasi Geografis & Navigasi Wisata</span>
             </div>
             <h1 class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight">
-                Peta Wisata & Jelajah Negeri Morela
+                Peta Wisata & Jelajah Negeri Morella
             </h1>
             <p class="text-xs text-stone-500 mt-1 max-w-2xl">
                 Kelola titik koordinat destinasi wisata alam, pantai, sejarah, sentra UMKM, dan susun rute perjalanan interaktif terpadu dengan Google Maps.
@@ -105,7 +105,7 @@
         <div id="admin-overview-map" class="w-full h-80 sm:h-96 rounded-2xl bg-stone-100 border border-stone-200 overflow-hidden relative">
             <div id="map-fallback-banner" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-stone-500 bg-stone-100">
                 <svg class="w-12 h-12 text-stone-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="2"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor"/></svg>
-                <div class="font-bold text-stone-800 text-sm">Peta Interaktif Morela</div>
+                <div class="font-bold text-stone-800 text-sm">Peta Interaktif Morella</div>
                 <p class="text-xs text-stone-500 max-w-md mt-1">
                     {{ count($destinations) }} destinasi dan {{ count($routes) }} rute terdaftar di sistem.
                 </p>

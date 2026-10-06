@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Media Sosial - Admin Morela Tourism')
+@section('title', 'Tambah Media Sosial - Admin Negeri Morella')
 
 @section('content')
 <div class="max-w-3xl mx-auto space-y-6">
@@ -35,8 +35,8 @@
             @php
                 $presets = [
                     ['name' => 'Instagram', 'slug' => 'instagram', 'icon' => 'instagram', 'url' => 'https://instagram.com/morelatourism', 'user' => '@morelatourism'],
-                    ['name' => 'Facebook', 'slug' => 'facebook', 'icon' => 'facebook', 'url' => 'https://facebook.com/morelatourismofficial', 'user' => 'Morela Tourism Official'],
-                    ['name' => 'YouTube', 'slug' => 'youtube', 'icon' => 'youtube', 'url' => 'https://youtube.com/@morelatourism', 'user' => 'Morela Tourism Maluku'],
+                    ['name' => 'Facebook', 'slug' => 'facebook', 'icon' => 'facebook', 'url' => 'https://facebook.com/morelatourismofficial', 'user' => 'Negeri Morella  Official'],
+                    ['name' => 'YouTube', 'slug' => 'youtube', 'icon' => 'youtube', 'url' => 'https://youtube.com/@morelatourism', 'user' => 'Negeri Morella  Maluku'],
                     ['name' => 'TikTok', 'slug' => 'tiktok', 'icon' => 'tiktok', 'url' => 'https://tiktok.com/@pesona_morela', 'user' => '@pesona_morela'],
                     ['name' => 'WhatsApp', 'slug' => 'whatsapp', 'icon' => 'whatsapp', 'url' => 'https://wa.me/6281234567800', 'user' => '+62 812-3456-7800'],
                     ['name' => 'X (Twitter)', 'slug' => 'x', 'icon' => 'twitter', 'url' => 'https://x.com/MorelaTourism', 'user' => '@MorelaTourism'],
@@ -157,7 +157,7 @@
                     name="url" 
                     value="{{ old('url') }}" 
                     required 
-                    placeholder="https://instagram.com/morelatourism atau https://wa.me/62..."
+                    placeholder="https://instagram.com/morella atau https://wa.me/62..."
                     class="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-800 font-mono focus:outline-none focus:border-emerald-600 focus:bg-white transition-colors"
                 >
                 <p class="text-[10px] text-stone-400 mt-1">Harus diawali dengan http:// atau https://</p>
@@ -175,7 +175,7 @@
                     id="description" 
                     name="description" 
                     rows="2" 
-                    placeholder="Contoh: Dokumentasi visual kegiatan desa Morela, promosi wisata pesisir, dan agenda tradisi budaya."
+                    placeholder="Contoh: Dokumentasi visual kegiatan Negeri Negeri Morella, promosi wisata pesisir, dan agenda tradisi budaya."
                     class="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-800 focus:outline-none focus:border-emerald-600 focus:bg-white transition-colors"
                 >{{ old('description') }}</textarea>
                 @error('description')
@@ -216,7 +216,7 @@
                         >
                         <div>
                             <span class="text-xs font-semibold text-stone-800">Status Aktif (Tayang Publik)</span>
-                            <p class="text-[11px] text-stone-500">Tampilkan saluran ini di website resmi Morela Tourism.</p>
+                            <p class="text-[11px] text-stone-500">Tampilkan saluran ini di website resmi Negeri Morella .</p>
                         </div>
                     </label>
                 </div>

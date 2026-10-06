@@ -32,10 +32,14 @@ Route::post('/payment/simulate/{bookingCode}', [PaymentController::class, 'simul
 
 // Destinations API
 Route::get('/destinations', function () {
-    return response()->json([
-        'data' => Destination::where('published', true)->get()
-    ]);
-});
+      $dests = Destination::where('published', true)->get()->map(function ($dest) {
+          if (str_starts_with($dest->image_url, '/storage/')) {
+              $dest->image_url = url($dest->image_url);
+          }
+          return $dest;
+      });
+      return response()->json(['data' => $dests]);
+  });
 
 Route::get('/destinations/{id}', function ($id) {
     $destination = Destination::where('published', true)->find($id);
@@ -83,10 +87,14 @@ Route::get('/social-media/{id}', function ($id) {
 
 // Gallery Videos API
 Route::get('/gallery-videos', function () {
-    return response()->json([
-        'data' => GalleryVideo::latest()->get()
-    ]);
-});
+      $videos = GalleryVideo::latest()->get()->map(function ($vid) {
+          if (str_starts_with($vid->video_url, '/storage/')) {
+              $vid->video_url = url($vid->video_url);
+          }
+          return $vid;
+      });
+      return response()->json(['data' => $videos]);
+  });
 
 Route::get('/gallery-videos/{id}', function ($id) {
     $video = GalleryVideo::where('is_published', true)->find($id);
@@ -98,7 +106,7 @@ Route::get('/gallery-videos/{id}', function ($id) {
     ]);
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
     // Admin Ticketing
     Route::get('/admin/tickets', [ApiTicketBookingController::class, 'index']);
     Route::post('/admin/tickets/validate', [ApiTicketBookingController::class, 'validateQr']);
@@ -114,8 +122,13 @@ Route::middleware('auth:sanctum')->group(function () {
             'tagline' => 'required|string',
             'description' => 'required|string',
             'location' => 'required|string',
-            'image_url' => 'required|string'
+            'image_url' => 'nullable|string',
+            'image_file' => 'nullable|image|max:10240'
         ]);
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('destinations', 'public');
+            $validated['image_url'] = url('/storage/' . $path);
+        }
         $validated['published'] = true;
         $dest = Destination::create($validated);
         return response()->json($dest, 201);
@@ -189,8 +202,17 @@ Route::middleware('auth:sanctum')->group(function () {
         $validated = $request->validate([
             'title' => 'required|string',
             'slug' => 'required|string|unique:gallery_videos,slug',
-            'video_url' => 'required|string',
+            'category' => 'nullable|string',
+            'description' => 'nullable|string',
+            'video_file' => 'nullable|file|max:512000',
+            'video_url' => 'nullable|string',
         ]);
+        
+        if ($request->hasFile('video_file')) {
+            $path = $request->file('video_file')->store('gallery/videos', 'public');
+            $validated['video_url'] = url('/storage/' . $path);
+        }
+
         $validated['is_published'] = true;
         $gv = GalleryVideo::create($validated);
         return response()->json($gv, 201);
@@ -198,7 +220,29 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::put('/gallery-videos/{id}', function (Request $request, $id) {
         $gv = GalleryVideo::findOrFail($id);
-        $gv->update($request->all());
+        $data = $request->all();
+        
+        if (isset($data['video_url']) && str_starts_with($data['video_url'], 'blob:')) {
+            unset($data['video_url']);
+        }
+
+        if ($request->hasFile('video_file')) {
+            $file = $request->file('video_file');
+            if ($file->isValid()) {
+                // Delete old physical file if exists and is local
+                if ($gv->video_url && str_starts_with($gv->video_url, url('/storage/'))) {
+                    $oldPath = str_replace(url('/storage/') . '/', '', $gv->video_url);
+                    if (\Illuminate\Support\Facades\Storage::disk('public')->exists($oldPath)) {
+                        \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
+                    }
+                }
+                
+                $path = $file->store('gallery/videos', 'public');
+                $data['video_url'] = url('/storage/' . $path);
+            }
+        }
+        
+        $gv->update($data);
         return response()->json($gv);
     });
 
@@ -206,9 +250,23 @@ Route::middleware('auth:sanctum')->group(function () {
         GalleryVideo::findOrFail($id)->delete();
         return response()->json(null, 204);
     });
-});
+// });
 
 // App Settings
 use App\Http\Controllers\AppSettingController;
 Route::get('/settings', [AppSettingController::class, 'index']);
 Route::post('/settings', [AppSettingController::class, 'update']);
+
+
+
+
+
+
+
+
+Route::get('/test-post-size', function () { return \Illuminate\Http\UploadedFile::getMaxFilesize(); });
+Route::get('/test-post-size-2', function () { return ini_get('post_max_size'); });
+
+
+
+

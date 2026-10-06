@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Unggah Video Galeri (Maks. 500MB) - Admin Morela')
+@section('title', 'Unggah Video Galeri (Maks. 500MB) - Admin Morella')
 
 @section('content')
 <div class="max-w-3xl mx-auto space-y-6">
@@ -44,7 +44,7 @@
                     name="title" 
                     value="{{ old('title') }}" 
                     required 
-                    placeholder="Contoh: Liputan Tradisi Pukul Sapu 7 Syawal Negeri Morela"
+                    placeholder="Contoh: Liputan Tradisi Pukul Sapu 7 Syawal Negeri Morella"
                     class="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-800 focus:outline-none focus:border-emerald-600 focus:bg-white"
                 >
             </div>
@@ -113,20 +113,6 @@
                     name="video_url" 
                     value="{{ old('video_url') }}" 
                     placeholder="https://.../video.mp4"
-                    class="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-800 font-mono focus:outline-none focus:border-emerald-600 focus:bg-white"
-                >
-            </div>
-
-            <!-- Thumbnail URL -->
-            <div>
-                <label for="thumbnail_url" class="block text-xs font-semibold text-stone-700 mb-1.5">
-                    URL Foto Cover / Sampul Video
-                </label>
-                <input 
-                    type="url" 
-                    id="thumbnail_url" 
-                    name="thumbnail_url" 
-                    value="{{ old('thumbnail_url', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80') }}" 
                     class="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-800 font-mono focus:outline-none focus:border-emerald-600 focus:bg-white"
                 >
             </div>

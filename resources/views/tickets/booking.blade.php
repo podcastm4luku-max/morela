@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pesan E-Tiket Wisata - Morela Tourism')
+@section('title', 'Pesan E-Tiket Wisata -Negeri Morella')
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-10">
@@ -8,7 +8,7 @@
     <div class="space-y-3 max-w-3xl">
         <span class="text-xs font-semibold uppercase tracking-widest text-emerald-700">SISTEM RESERVASI ONLINE</span>
         <h1 class="font-serif text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight">
-            Pemesanan E-Tiket Wisata Desa Morela
+            Pemesanan E-Tiket Wisata Desa Morella
         </h1>
         <p class="text-sm text-stone-600">
             Dapatkan tiket masuk resmi tanpa antre di loket. Mendukung pembayaran instan melalui QRIS Nasional (Bank Maluku Malut, BCA, BRI, Mandiri, e-Wallet) dan Virtual Account.
@@ -114,7 +114,7 @@
                         <label class="p-3.5 rounded-2xl border cursor-pointer hover:bg-stone-50 has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50/50 has-[:checked]:ring-2 has-[:checked]:ring-emerald-500/20">
                             <input type="radio" name="payment_method" value="cash_on_site" class="text-emerald-600">
                             <div class="font-bold text-stone-900 mt-1">Bayar di Lokasi</div>
-                            <div class="text-[10px] text-stone-500">Tunai di pos loket masuk Morela.</div>
+                            <div class="text-[10px] text-stone-500">Tunai di pos loket masuk Morella.</div>
                         </label>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                         <span class="font-mono font-bold text-stone-900">Rp 2.000 / transaksi</span>
                     </div>
                     <p class="text-[11px] text-stone-500 leading-relaxed">
-                        Dana retribusi dikelola secara transparan oleh Pemerintah Negeri Morela untuk kelestarian alam dan keselamatan pengunjung.
+                        Dana retribusi dikelola secara transparan oleh Pemerintah Negeri Morella untuk kelestarian alam dan keselamatan pengunjung.
                     </p>
                 </div>
             </div>

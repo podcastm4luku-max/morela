@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Media Sosial - Admin Morela Tourism')
+@section('title', 'Kelola Media Sosial - Admin Morela ')
 
 @section('content')
 <div class="space-y-6">
@@ -218,7 +218,7 @@
                                     </div>
                                     <div class="font-serif text-base font-bold text-stone-800">Belum ada akun media sosial</div>
                                     <p class="text-xs text-stone-500">
-                                        Data media sosial yang ditambahkan akan muncul di sini dan tayang di website publik Morela Tourism.
+                                        Data media sosial yang ditambahkan akan muncul di sini dan tayang di website publik Morela .
                                     </p>
                                     <div class="pt-2">
                                         <a href="{{ route('admin.social-media.create') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold">

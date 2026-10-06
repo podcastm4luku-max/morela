@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Video Galeri (Maks. 500MB) - Admin Morela')
+@section('title', 'Kelola Video Galeri (Maks. 500MB) - Admin Morella')
 
 @section('content')
 <div class="space-y-6">

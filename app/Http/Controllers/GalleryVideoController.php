@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\GalleryVideo;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class GalleryVideoController extends Controller
 {
@@ -50,7 +51,6 @@ class GalleryVideoController extends Controller
             'description'   => 'nullable|string|max:1000',
             'duration'      => 'nullable|string|max:20',
             'author'        => 'nullable|string|max:100',
-            'thumbnail_url' => 'nullable|url|max:255',
             'video_url'     => 'nullable|url|max:255',
             // Validasi file video maksimal 500 MB (512000 KB)
             'video_file'    => 'nullable|file|mimes:mp4,mov,avi,webm,mkv|max:512000',
@@ -63,6 +63,18 @@ class GalleryVideoController extends Controller
 
         $videoUrl = $validated['video_url'] ?? null;
         $fileSizeMb = 0;
+        $thumbnailUrl = null;
+
+        // Auto thumbnail if youtube URL
+        if ($videoUrl && str_contains($videoUrl, 'youtube.com/watch?v=')) {
+            parse_str(parse_url($videoUrl, PHP_URL_QUERY), $queryArgs);
+            if (isset($queryArgs['v'])) {
+                $thumbnailUrl = 'https://img.youtube.com/vi/' . $queryArgs['v'] . '/maxresdefault.jpg';
+            }
+        } elseif ($videoUrl && str_contains($videoUrl, 'youtu.be/')) {
+            $path = parse_url($videoUrl, PHP_URL_PATH);
+            $thumbnailUrl = 'https://img.youtube.com/vi' . $path . '/maxresdefault.jpg';
+        }
 
         // Jika mengunggah berkas video langsung
         if ($request->hasFile('video_file')) {
@@ -92,7 +104,7 @@ class GalleryVideoController extends Controller
             'file_size_mb'  => $fileSizeMb > 0 ? $fileSizeMb : ($request->input('file_size_mb') ?? 50),
             'author'        => $validated['author'] ?? 'Tim Dokumentasi Desa Morela',
             'video_url'     => $videoUrl,
-            'thumbnail_url' => $validated['thumbnail_url'] ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80',
+            'thumbnail_url' => $thumbnailUrl ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80',
             'is_published'  => true,
         ]);
 
@@ -122,7 +134,6 @@ class GalleryVideoController extends Controller
             'description'   => 'nullable|string|max:1000',
             'duration'      => 'nullable|string|max:20',
             'author'        => 'nullable|string|max:100',
-            'thumbnail_url' => 'nullable|url|max:255',
             'video_url'     => 'nullable|url|max:255',
             'video_file'    => 'nullable|file|mimes:mp4,mov,avi,webm,mkv|max:512000',
         ], [
@@ -137,12 +148,29 @@ class GalleryVideoController extends Controller
                 return back()->withInput()->withErrors(['video_file' => 'Ukuran video melebihi batas maksimal 500 MB.']);
             }
 
+            // Hapus file lama jika ada di storage lokal
+            if ($video->video_url && str_starts_with($video->video_url, '/storage/')) {
+                $oldPath = str_replace('/storage/', 'public/', $video->video_url);
+                Storage::delete($oldPath);
+            }
+
             $fileName = time() . '_' . Str::slug($validated['title']) . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/videos', $fileName);
             $video->video_url = '/storage/videos/' . $fileName;
             $video->file_size_mb = $fileSizeMb;
         } elseif (!empty($validated['video_url'])) {
             $video->video_url = $validated['video_url'];
+            
+            // Auto thumbnail if youtube URL
+            if (str_contains($video->video_url, 'youtube.com/watch?v=')) {
+                parse_str(parse_url($video->video_url, PHP_URL_QUERY), $queryArgs);
+                if (isset($queryArgs['v'])) {
+                    $video->thumbnail_url = 'https://img.youtube.com/vi/' . $queryArgs['v'] . '/maxresdefault.jpg';
+                }
+            } elseif (str_contains($video->video_url, 'youtu.be/')) {
+                $path = parse_url($video->video_url, PHP_URL_PATH);
+                $video->thumbnail_url = 'https://img.youtube.com/vi' . $path . '/maxresdefault.jpg';
+            }
         }
 
         $video->title = $validated['title'];
@@ -150,9 +178,6 @@ class GalleryVideoController extends Controller
         $video->description = $validated['description'];
         $video->duration = $validated['duration'] ?? $video->duration;
         $video->author = $validated['author'] ?? $video->author;
-        if (!empty($validated['thumbnail_url'])) {
-            $video->thumbnail_url = $validated['thumbnail_url'];
-        }
 
         $video->save();
 
@@ -167,6 +192,13 @@ class GalleryVideoController extends Controller
     {
         $video = GalleryVideo::findOrFail($id);
         $title = $video->title;
+        
+        // Hapus file fisik dari storage jika ada
+        if ($video->video_url && str_starts_with($video->video_url, '/storage/')) {
+            $oldPath = str_replace('/storage/', 'public/', $video->video_url);
+            Storage::delete($oldPath);
+        }
+
         $video->delete();
 
         return redirect()->route('admin.gallery-videos.index')

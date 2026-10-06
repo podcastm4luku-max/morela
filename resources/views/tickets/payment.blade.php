@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pembayaran QRIS E-Tiket - Morela Tourism')
+@section('title', 'Pembayaran QRIS E-Tiket -Negeri  Morella')
 
 @section('content')
 <div class="max-w-2xl mx-auto px-4 py-12 space-y-6">

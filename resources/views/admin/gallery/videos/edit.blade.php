@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Video Galeri - Admin Morela')
+@section('title', 'Edit Video Galeri - Admin Morella')
 
 @section('content')
 <div class="max-w-3xl mx-auto space-y-6">
@@ -103,20 +103,6 @@
                     id="video_url" 
                     name="video_url" 
                     value="{{ old('video_url', $video->video_url) }}" 
-                    class="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-800 font-mono focus:outline-none focus:border-emerald-600 focus:bg-white"
-                >
-            </div>
-
-            <!-- Thumbnail URL -->
-            <div>
-                <label for="thumbnail_url" class="block text-xs font-semibold text-stone-700 mb-1.5">
-                    URL Foto Cover / Sampul Video
-                </label>
-                <input 
-                    type="url" 
-                    id="thumbnail_url" 
-                    name="thumbnail_url" 
-                    value="{{ old('thumbnail_url', $video->thumbnail_url) }}" 
                     class="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-800 font-mono focus:outline-none focus:border-emerald-600 focus:bg-white"
                 >
             </div>

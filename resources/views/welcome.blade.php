@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Negeri Morella - Jelajah Pesona Morella (Hybrid)</title>
-    <meta name="description" content="Portal Digital Pariwisata Desa Morela: Alam, Budaya & Masyarakat. Kolaborasi Program Pengabdian Mahasiswa Universitas Darussalam Ambon." />
+    <meta name="description" content="Portal Digital Pariwisata Desa Morella: Alam, Budaya & Masyarakat. Kolaborasi Program Pengabdian Mahasiswa Universitas Darussalam Ambon." />
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,11 +61,11 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-emerald-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
               </div>
               <span class="font-serif text-xl font-bold tracking-tight text-white">
-                NEGERI MORELA
+                NEGERI MORELLA
               </span>
             </div>
             <p class="text-xs text-stone-400 leading-relaxed">
-              Portal Digital Pariwisata Desa Morela: Media promosi keindahan alam pesisir, cagar budaya sakral, serta etalase produk UMKM kreatif masyarakat Leihitu, Maluku Tengah.
+              Portal Digital Pariwisata Negeri Morella: Media promosi keindahan alam pesisir, cagar budaya sakral, serta etalase produk UMKM kreatif masyarakat Leihitu, Maluku Tengah.
             </p>
             <div class="text-xs text-stone-400 pt-2 space-y-1">
               {{-- <div class="flex items-center gap-2">
@@ -108,10 +108,10 @@
                 <span x-show="expanded" class="text-xs opacity-50" x-cloak>-</span>
               </div>
               <p class="text-[11px] text-stone-300 leading-relaxed">
-                Program Pengabdian Masyarakat Mahasiswa: "Digitalisasi Potensi Pariwisata dan Ekonomi Kreatif Desa Morela".
+                Program Pengabdian Masyarakat Mahasiswa: "Digitalisasi Potensi Pariwisata dan Ekonomi Kreatif Desa Morella".
               </p>
               <div x-show="expanded" x-transition class="pt-2 mt-2 border-t border-stone-700">
-                <p class="text-[10px] text-stone-400">Tim Mahasiswa Pengabdian Batch 2026 yang diinisiasi untuk memberikan dorongan teknologi ke pariwisata Desa Morela.</p>
+                <p class="text-[10px] text-stone-400">Tim Mahasiswa Pengabdian Batch 2026 yang diinisiasi untuk memberikan dorongan teknologi ke pariwisata Desa Morella.</p>
               </div>
             </div>
           </div>

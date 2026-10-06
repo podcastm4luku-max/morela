@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard Utama - Admin Morela Tourism')
+@section('title', 'Dashboard Utama - Admin Negeri Morella')
 
 @section('content')
 <div class="space-y-8">
@@ -84,7 +84,7 @@
                     Akun Media Sosial yang Tersedia
                 </h2>
                 <p class="text-xs text-stone-500">
-                    Daftar akun media sosial resmi yang telah diinput via sistem CRUD dan tayang di website publik Morela Tourism.
+                    Daftar akun media sosial resmi yang telah diinput via sistem CRUD dan tayang di website publik Negeri Morella.
                 </p>
             </div>
 

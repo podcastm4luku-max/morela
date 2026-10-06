@@ -176,7 +176,7 @@
                         >
                         <div>
                             <span class="text-xs font-semibold text-stone-800">Status Aktif (Tayang Publik)</span>
-                            <p class="text-[11px] text-stone-500">Tampilkan saluran ini di website resmi Morela Tourism.</p>
+                            <p class="text-[11px] text-stone-500">Tampilkan saluran ini di website resmi Negeri Morella .</p>
                         </div>
                     </label>
                 </div>

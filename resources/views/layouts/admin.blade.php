@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Admin Dashboard - Morela Tourism')</title>
+    <title>@yield('title', 'Admin Dashboard - Negeri Morella')</title>
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Fonts -->
@@ -39,7 +39,7 @@
                             M
                         </div>
                         <div>
-                            <div class="font-serif font-bold text-sm text-white tracking-wide">MORELA TOURISM</div>
+                            <div class="font-serif font-bold text-sm text-white tracking-wide">NEGERI MORELLA</div>
                             <div class="text-[10px] text-emerald-400 font-medium">Panel Administrasi & Pengelola</div>
                         </div>
                     </a>
@@ -71,7 +71,7 @@
                         ADM
                     </div>
                     <div class="overflow-hidden">
-                        <div class="text-xs font-bold text-stone-800 truncate">Pemerintah Desa Morela</div>
+                        <div class="text-xs font-bold text-stone-800 truncate">Pemerintah Negeri Morella</div>
                         <div class="text-[10px] text-stone-500 truncate">Pokdarwis & Tim UNIDAR</div>
                     </div>
                 </div>
@@ -129,11 +129,23 @@
                         <svg class="w-4 h-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
                         <span>Arsip Budaya</span>
                     </a>
+
+                    <!-- Galeri Gambar -->
+                    <a href="{{ route('admin.gallery.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl {{ request()->routeIs('admin.gallery.*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900' }} transition-colors">
+                        <svg class="w-4 h-4 {{ request()->routeIs('admin.gallery.*') ? 'text-emerald-700' : 'text-stone-400' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span>Data Gambar</span>
+                    </a>
+
+                    <!-- Galeri Video -->
+                    <a href="{{ route('admin.gallery-videos.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl {{ request()->routeIs('admin.gallery-videos.*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900' }} transition-colors">
+                        <svg class="w-4 h-4 {{ request()->routeIs('admin.gallery-videos.*') ? 'text-emerald-700' : 'text-stone-400' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <span>Data Video</span>
+                    </a>
                 </nav>
 
                 <div class="pt-3 border-t border-stone-100 text-[11px] text-stone-400">
                     <p class="font-medium text-stone-600">Sistem Versi 2.4</p>
-                    <p>Desa Morela & Universitas Darussalam Ambon</p>
+                    <p>Negeri Morella & Universitas Darussalam Ambon</p>
                 </div>
             </div>
         </aside>
@@ -182,7 +194,7 @@
     <!-- Admin Footer -->
     <footer class="bg-stone-900 text-stone-400 border-t border-stone-800 text-xs py-4 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <div>© {{ date('Y') }} Negeri Morela. Sistem Pengelolaan Informasi & Promosi Wisata Negeri Morella.</div>
+            <div>© {{ date('Y') }} Negeri Morella. Sistem Pengelolaan Informasi & Promosi Wisata Negeri Morella.</div>
             <div class="text-[11px] text-stone-500">Program Pengabdian KKN UNIDAR Ambon</div>
         </div>
     </footer>
