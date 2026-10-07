@@ -78,6 +78,14 @@
 
             <!-- Ganti File Video (Maks. 500MB) -->
             <div class="p-4 bg-stone-50 border border-stone-200 rounded-2xl space-y-2">
+                @if($video->video_url)
+                <div class="mb-4 rounded-xl overflow-hidden bg-black flex items-center justify-center">
+                    <video controls class="w-full max-h-64 object-contain">
+                        <source src="{{ $video->video_url }}" type="video/mp4">
+                        Browser Anda tidak mendukung pemutaran video.
+                    </video>
+                </div>
+                @endif
                 <label for="video_file" class="block text-xs font-semibold text-stone-800">
                     Ganti Berkas Video (Maksimal 500 MB)
                 </label>

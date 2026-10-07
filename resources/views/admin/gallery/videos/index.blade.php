@@ -43,26 +43,33 @@
             <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
                 <div>
                     <!-- Video Thumbnail Preview with Play Icon Overlay -->
-                    <div class="relative aspect-video bg-stone-900 overflow-hidden">
-                        <img 
-                            src="{{ $video->thumbnail_url ?: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80' }}" 
-                            alt="{{ $video->title }}" 
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90"
-                        >
-                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                            <a 
-                                href="{{ $video->video_url }}" 
-                                target="_blank" 
-                                class="w-12 h-12 rounded-full bg-emerald-600/90 hover:bg-emerald-500 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform"
-                                title="Putar Video"
+                    <div class="relative aspect-video bg-black overflow-hidden">
+                        @if(str_starts_with($video->video_url, '/storage/') || str_ends_with($video->video_url, '.mp4'))
+                            <video controls class="w-full h-full object-contain" preload="metadata">
+                                <source src="{{ $video->video_url }}" type="video/mp4">
+                                Browser Anda tidak mendukung pemutaran video.
+                            </video>
+                        @else
+                            <img 
+                                src="{{ $video->thumbnail_url ?: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80' }}" 
+                                alt="{{ $video->title }}" 
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90"
                             >
-                                <svg class="w-5 h-5 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                            </a>
-                        </div>
-                        <div class="absolute bottom-2 right-2 px-2 py-0.5 bg-black/80 text-white text-[10px] font-mono rounded-md">
+                            <div class="absolute inset-0 bg-black/30 flex items-center justify-center pointer-events-none">
+                                <a 
+                                    href="{{ $video->video_url }}" 
+                                    target="_blank" 
+                                    class="w-12 h-12 rounded-full bg-emerald-600/90 hover:bg-emerald-500 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform pointer-events-auto"
+                                    title="Buka Video"
+                                >
+                                    <svg class="w-5 h-5 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </a>
+                            </div>
+                        @endif
+                        <div class="absolute bottom-2 right-2 px-2 py-0.5 bg-black/80 text-white text-[10px] font-mono rounded-md pointer-events-none">
                             {{ $video->duration ?: '03:00' }}
                         </div>
-                        <div class="absolute top-2 left-2 px-2 py-0.5 bg-stone-900/80 text-amber-300 border border-stone-700 text-[10px] font-mono rounded-md">
+                        <div class="absolute top-2 left-2 px-2 py-0.5 bg-stone-900/80 text-amber-300 border border-stone-700 text-[10px] font-mono rounded-md pointer-events-none">
                             {{ $video->file_size_mb }} MB / Max 500MB
                         </div>
                     </div>
