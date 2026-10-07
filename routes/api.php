@@ -130,7 +130,7 @@ Route::post('/destinations', function (Request $request) {
         'description' => 'required|string',
         'location' => 'required|string',
         'image_url' => 'nullable|string',
-        'image_file' => 'nullable|image|max:10240',
+        'image_file' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
     ]);
     if ($request->hasFile('image_file')) {
         $path = $request->file('image_file')->store('destinations', 'public');
@@ -217,7 +217,7 @@ Route::delete('/social-media/{id}', function ($id) {
 Route::post('/gallery-videos', function (Request $request) {
     $validated = $request->validate([
         'title' => 'required|string',
-        'slug' => 'required|string|unique:gallery_videos,slug',
+        // slug removed from validation
         'category' => 'nullable|string',
         'description' => 'nullable|string',
         'video_file' => 'nullable|file|max:512000',
@@ -230,6 +230,7 @@ Route::post('/gallery-videos', function (Request $request) {
     }
 
     $validated['is_published'] = true;
+    $validated['slug'] = \Illuminate\Support\Str::slug($validated['title']) . '-' . time();
     $gv = GalleryVideo::create($validated);
 
     return response()->json($gv, 201);
@@ -284,4 +285,76 @@ Route::get('/test-post-size', function () {
 });
 Route::get('/test-post-size-2', function () {
     return ini_get('post_max_size');
+});
+
+// ... existing code ...
+
+// Gallery Images CRUD
+Route::get('/gallery-images', function () {
+    $images = \App\Models\GalleryImage::latest()->get()->map(function ($img) {
+        if (str_starts_with($img->image_path, '/storage/')) {
+            $img->image_path = url($img->image_path);
+        }
+        return $img;
+    });
+    return response()->json(['data' => $images]);
+});
+
+Route::post('/gallery-images', function (Illuminate\Http\Request $request) {
+    $validated = $request->validate([
+        'title' => 'required|string',
+        'category' => 'nullable|string',
+        'description' => 'nullable|string',
+        'image_file' => 'nullable|image|mimes:jpg,jpeg,png|max:10240', // 10MB max
+    ]);
+
+    if ($request->hasFile('image_file')) {
+        $path = $request->file('image_file')->store('gallery/images', 'public');
+        $validated['image_path'] = url('/storage/'.$path);
+    } else {
+        $validated['image_path'] = '';
+    }
+
+    $validated['is_published'] = true;
+    
+    // Add missing fields to avoid DB constraint errors if any
+    
+    
+
+    $img = \App\Models\GalleryImage::create($validated);
+    return response()->json($img, 201);
+});
+
+Route::put('/gallery-images/{id}', function (Illuminate\Http\Request $request, $id) {
+    $img = \App\Models\GalleryImage::findOrFail($id);
+    $data = $request->all();
+
+    if ($request->hasFile('image_file')) {
+        $file = $request->file('image_file');
+        if ($file->isValid()) {
+            if ($img->image_path && str_starts_with($img->image_path, url('/storage/'))) {
+                $oldPath = str_replace(url('/storage/').'/', '', $img->image_path);
+                if (Storage::disk('public')->exists($oldPath)) {
+                    Storage::disk('public')->delete($oldPath);
+                }
+            }
+            $path = $file->store('gallery/images', 'public');
+            $data['image_path'] = url('/storage/'.$path);
+        }
+    }
+    
+    $img->update($data);
+    return response()->json($img);
+});
+
+Route::delete('/gallery-images/{id}', function ($id) {
+    $img = \App\Models\GalleryImage::findOrFail($id);
+    if ($img->image_path && str_starts_with($img->image_path, url('/storage/'))) {
+        $oldPath = str_replace(url('/storage/').'/', '', $img->image_path);
+        if (Storage::disk('public')->exists($oldPath)) {
+            Storage::disk('public')->delete($oldPath);
+        }
+    }
+    $img->delete();
+    return response()->json(null, 204);
 });

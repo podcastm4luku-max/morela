@@ -13,7 +13,7 @@
                 <span class="text-stone-900 font-medium">Unggah Video Baru</span>
             </div>
             <h1 class="font-serif text-2xl font-bold text-stone-900">
-                Unggah Video Dokumentasi (Maksimal 500 MB)
+                Unggah Video Dokumentasi (Maksimal 50 MB)
             </h1>
         </div>
         <a href="{{ route('admin.gallery-videos.index') }}" class="px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-xs font-medium text-stone-600 hover:bg-stone-50 transition-colors">
@@ -25,7 +25,7 @@
     <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-center gap-3 text-xs text-amber-900 shadow-xs">
         <svg class="w-5 h-5 text-amber-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
         <div>
-            <strong>Ketentuan Ukuran Berkas:</strong> Sistem membatasi ukuran unggahan berkas video hingga <strong>maksimal 500 Megabytes (500 MB)</strong>. Format yang diterima: <code>.mp4</code>, <code>.mov</code>, <code>.webm</code>, <code>.mkv</code>.
+            <strong>Ketentuan Ukuran Berkas:</strong> Sistem membatasi ukuran unggahan berkas video hingga <strong>maksimal 50 Megabytes (50 MB)</strong>. Format yang diterima: <code>.mp4</code>, <code>.mov</code>, <code>.webm</code>, <code>.mkv</code>.
         </div>
     </div>
 
@@ -99,7 +99,7 @@
             <!-- Upload File Video (Maks. 500MB) -->
             <div class="p-4 bg-stone-50 border border-stone-200 rounded-2xl space-y-2">
                 <label for="video_file" class="block text-xs font-semibold text-stone-800">
-                    Unggah Berkas Video Asli <span class="text-rose-500">*</span> (Maksimal 500 MB)
+                    Unggah Berkas Video Asli <span class="text-rose-500">*</span> (Maksimal 50 MB)
                 </label>
                 <input 
                     type="file" 
@@ -134,7 +134,7 @@
                     Batal
                 </a>
                 <button type="submit" class="px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold shadow-xs">
-                    Simpan & Unggah Video (Maks. 500MB)
+                    Simpan & Unggah Video (Maks. 50MB)
                 </button>
             </div>
 
