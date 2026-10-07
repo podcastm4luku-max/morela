@@ -55,30 +55,18 @@ class GalleryVideoController extends Controller
             'description' => 'nullable|string|max:1000',
             'duration' => 'nullable|string|max:20',
             'author' => 'nullable|string|max:100',
-            'video_url' => 'nullable|url|max:255',
             // Validasi file video maksimal 500 MB (512000 KB)
-            'video_file' => 'nullable|file|mimes:mp4,mov,avi,webm,mkv|max:512000',
+            'video_file' => 'required|file|mimes:mp4,mov,avi,webm,mkv|max:512000',
         ], [
             'title.required' => 'Judul video wajib diisi.',
             'category.required' => 'Kategori video wajib dipilih.',
+            'video_file.required' => 'Berkas video wajib diunggah.',
             'video_file.max' => 'Ukuran berkas video melebihi batas maksimal 500 MB (512.000 KB).',
             'video_file.mimes' => 'Format video harus berupa MP4, MOV, AVI, WebM, atau MKV.',
         ]);
 
-        $videoUrl = $validated['video_url'] ?? null;
         $fileSizeMb = 0;
         $thumbnailUrl = null;
-
-        // Auto thumbnail if youtube URL
-        if ($videoUrl && str_contains($videoUrl, 'youtube.com/watch?v=')) {
-            parse_str(parse_url($videoUrl, PHP_URL_QUERY), $queryArgs);
-            if (isset($queryArgs['v'])) {
-                $thumbnailUrl = 'https://img.youtube.com/vi/'.$queryArgs['v'].'/maxresdefault.jpg';
-            }
-        } elseif ($videoUrl && str_contains($videoUrl, 'youtu.be/')) {
-            $path = parse_url($videoUrl, PHP_URL_PATH);
-            $thumbnailUrl = 'https://img.youtube.com/vi'.$path.'/maxresdefault.jpg';
-        }
 
         // Jika mengunggah berkas video langsung
         if ($request->hasFile('video_file')) {
@@ -105,20 +93,16 @@ class GalleryVideoController extends Controller
             $videoUrl = '/storage/videos/'.$fileName;
         }
 
-        if (empty($videoUrl)) {
-            return back()->withInput()->withErrors(['video_file' => 'Harap unggah file video (maks. 500MB) atau masukkan URL video streaming.']);
-        }
-
         GalleryVideo::create([
             'title' => $validated['title'],
             'slug' => Str::slug($validated['title']).'-'.Str::random(5),
             'category' => $validated['category'],
             'description' => $validated['description'],
             'duration' => $validated['duration'] ?? '03:00',
-            'file_size_mb' => $fileSizeMb > 0 ? $fileSizeMb : ($request->input('file_size_mb') ?? 50),
+            'file_size_mb' => $fileSizeMb,
             'author' => $validated['author'] ?? 'Tim Dokumentasi Desa Morela',
             'video_url' => $videoUrl,
-            'thumbnail_url' => $thumbnailUrl ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80',
+            'thumbnail_url' => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80',
             'is_published' => true,
         ]);
 
@@ -149,7 +133,6 @@ class GalleryVideoController extends Controller
             'description' => 'nullable|string|max:1000',
             'duration' => 'nullable|string|max:20',
             'author' => 'nullable|string|max:100',
-            'video_url' => 'nullable|url|max:255',
             'video_file' => 'nullable|file|mimes:mp4,mov,avi,webm,mkv|max:512000',
         ], [
             'video_file.max' => 'Ukuran berkas video melebihi batas maksimal 500 MB.',
@@ -185,19 +168,6 @@ class GalleryVideoController extends Controller
 
             $video->video_url = '/storage/videos/'.$fileName;
             $video->file_size_mb = $fileSizeMb;
-        } elseif (! empty($validated['video_url'])) {
-            $video->video_url = $validated['video_url'];
-
-            // Auto thumbnail if youtube URL
-            if (str_contains($video->video_url, 'youtube.com/watch?v=')) {
-                parse_str(parse_url($video->video_url, PHP_URL_QUERY), $queryArgs);
-                if (isset($queryArgs['v'])) {
-                    $video->thumbnail_url = 'https://img.youtube.com/vi/'.$queryArgs['v'].'/maxresdefault.jpg';
-                }
-            } elseif (str_contains($video->video_url, 'youtu.be/')) {
-                $path = parse_url($video->video_url, PHP_URL_PATH);
-                $video->thumbnail_url = 'https://img.youtube.com/vi'.$path.'/maxresdefault.jpg';
-            }
         }
 
         $video->title = $validated['title'];

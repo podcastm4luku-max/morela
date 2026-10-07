@@ -99,33 +99,19 @@
             <!-- Upload File Video (Maks. 500MB) -->
             <div class="p-4 bg-stone-50 border border-stone-200 rounded-2xl space-y-2">
                 <label for="video_file" class="block text-xs font-semibold text-stone-800">
-                    Unggah Berkas Video Asli (Maksimal 500 MB)
+                    Unggah Berkas Video Asli <span class="text-rose-500">*</span> (Maksimal 500 MB)
                 </label>
                 <input 
                     type="file" 
                     id="video_file" 
                     name="video_file" 
+                    required
                     accept="video/mp4,video/quicktime,video/webm,video/x-matroska"
                     class="block w-full text-xs text-stone-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-700 file:text-white hover:file:bg-emerald-600 cursor-pointer"
                 >
                 <p class="text-[11px] text-stone-500">
-                    Batas ukuran: <strong>500 MB</strong>. Bila file berukuran besar, Anda juga dapat mengisi tautan video streaming di bawah.
+                    Batas ukuran: <strong>500 MB</strong>. Format: MP4, MOV, WEBM, MKV.
                 </p>
-            </div>
-
-            <!-- Atau URL Video Streaming -->
-            <div>
-                <label for="video_url" class="block text-xs font-semibold text-stone-700 mb-1.5">
-                    Atau Tautan URL Video Langsung (Streaming / MP4 / CDN)
-                </label>
-                <input 
-                    type="url" 
-                    id="video_url" 
-                    name="video_url" 
-                    value="{{ old('video_url') }}" 
-                    placeholder="https://.../video.mp4"
-                    class="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs text-stone-800 font-mono focus:outline-none focus:border-emerald-600 focus:bg-white"
-                >
             </div>
 
             <!-- Deskripsi -->
