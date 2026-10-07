@@ -1,17 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\DestinationController;
-use App\Http\Controllers\CultureController;
-use App\Http\Controllers\UmkmController;
-use App\Http\Controllers\TicketController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\NewsController;
-use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\SocialMediaController;
+use App\Http\Controllers\CultureController;
+use App\Http\Controllers\DestinationController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\GalleryVideoController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\SocialMediaController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\UmkmController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +21,7 @@ use App\Http\Controllers\GalleryVideoController;
 */
 
 // Public Frontend Routes
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang-morela', [HomeController::class, 'about'])->name('about');
 Route::get('/pengabdian-unidar', [HomeController::class, 'unidar'])->name('program.unidar');
 
@@ -60,22 +60,22 @@ Route::get('/galeri', [GalleryController::class, 'index'])->name('gallery.index'
 // 🔐 Dashboard Admin (Pemerintah Desa & Mahasiswa UNIDAR)
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    
+
     // CRUD Destinasi
     Route::resource('destinations', DestinationController::class)->except(['index', 'show']);
-    
+
     // Kelola E-Tiket & Check-In Loket
     Route::get('/tiket', [AdminController::class, 'tickets'])->name('tickets.index');
     Route::post('/tiket/check-in', [AdminController::class, 'checkIn'])->name('tickets.checkin');
     Route::patch('/tiket/{id}/status', [AdminController::class, 'updateTicketStatus'])->name('tickets.status');
-    
+
     // CRUD UMKM, Berita, Agenda, Budaya, Galeri
     Route::resource('umkm', UmkmController::class)->except(['index', 'show']);
     Route::resource('news', NewsController::class)->except(['index', 'show']);
     Route::resource('events', EventController::class)->except(['index', 'show']);
     Route::resource('culture', CultureController::class)->except(['index', 'show']);
     Route::resource('gallery', GalleryController::class)->except(['index', 'show']);
-    
+
     // CRUD Media Sosial Desa (Promosi & Kontak Resmi)
     Route::resource('social-media', SocialMediaController::class);
     Route::patch('/social-media/{id}/toggle-status', [SocialMediaController::class, 'toggleStatus'])->name('social-media.toggle');

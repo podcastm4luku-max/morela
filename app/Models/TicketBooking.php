@@ -47,11 +47,12 @@ class TicketBooking extends Model
     {
         $date = now()->format('ymd');
         $random = rand(1000, 9999);
+
         return "MOR-{$date}-{$random}";
     }
 
     public function getFormattedTotalAttribute(): string
     {
-        return 'Rp ' . number_format($this->total_amount, 0, ',', '.');
+        return 'Rp '.number_format($this->total_amount, 0, ',', '.');
     }
 }

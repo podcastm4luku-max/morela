@@ -23,7 +23,7 @@ class DestinasiSeeder extends Seeder
                 'ticket_price' => 5000,
                 'image_url' => 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80',
                 'published' => true,
-                'featured' => false
+                'featured' => false,
             ],
             [
                 'slug' => 'benteng-kapahaha-sejarah',
@@ -38,7 +38,7 @@ class DestinasiSeeder extends Seeder
                 'ticket_price' => 0,
                 'image_url' => 'https://images.unsplash.com/photo-1596700688647-197e4125b29c?auto=format&fit=crop&w=1200&q=80',
                 'published' => true,
-                'featured' => false
+                'featured' => false,
             ],
             [
                 'slug' => 'tanjung-nusanive-morela',
@@ -53,8 +53,8 @@ class DestinasiSeeder extends Seeder
                 'ticket_price' => 0,
                 'image_url' => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
                 'published' => true,
-                'featured' => true
-            ]
+                'featured' => true,
+            ],
         ];
 
         foreach ($destinations as $d) {

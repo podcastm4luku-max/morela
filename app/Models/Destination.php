@@ -58,8 +58,8 @@ class Destination extends Model
 
     public function getFormattedPriceAttribute(): string
     {
-        return $this->ticket_price > 0 
-            ? 'Rp ' . number_format($this->ticket_price, 0, ',', '.') . ' / orang'
+        return $this->ticket_price > 0
+            ? 'Rp '.number_format($this->ticket_price, 0, ',', '.').' / orang'
             : 'Gratis';
     }
 }

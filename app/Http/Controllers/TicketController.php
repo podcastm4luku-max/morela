@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Destination;
 use App\Models\TicketBooking;
+use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
@@ -15,7 +15,7 @@ class TicketController extends Controller
     {
         $destinations = Destination::where('published', true)->get();
         $selectedDestinationId = $request->query('destination_id', $destinations->first()?->id);
-        
+
         return view('tickets.booking', compact('destinations', 'selectedDestinationId'));
     }
 
@@ -76,6 +76,7 @@ class TicketController extends Controller
     public function payment($booking_code)
     {
         $booking = TicketBooking::with('destination')->where('booking_code', $booking_code)->firstOrFail();
+
         return view('tickets.payment', compact('booking'));
     }
 
@@ -85,7 +86,7 @@ class TicketController extends Controller
     public function confirmPayment($booking_code)
     {
         $booking = TicketBooking::where('booking_code', $booking_code)->firstOrFail();
-        
+
         $booking->update([
             'payment_status' => 'paid',
             'paid_at' => now(),
@@ -101,6 +102,7 @@ class TicketController extends Controller
     public function show($booking_code)
     {
         $booking = TicketBooking::with('destination')->where('booking_code', $booking_code)->firstOrFail();
+
         return view('tickets.show', compact('booking'));
     }
 
@@ -117,7 +119,7 @@ class TicketController extends Controller
             ->orWhere('visitor_phone', 'like', "%{$query}%")
             ->first();
 
-        if (!$booking) {
+        if (! $booking) {
             return back()->with('error', "Tiket dengan kode atau nomor '{$query}' tidak ditemukan.");
         }
 

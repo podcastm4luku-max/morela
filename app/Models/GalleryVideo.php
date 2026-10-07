@@ -36,7 +36,7 @@ class GalleryVideo extends Model
 
         static::creating(function ($model) {
             if (empty($model->slug)) {
-                $model->slug = Str::slug($model->title) . '-' . Str::random(5);
+                $model->slug = Str::slug($model->title).'-'.Str::random(5);
             }
         });
     }
@@ -48,6 +48,6 @@ class GalleryVideo extends Model
 
     public function getFormattedSizeAttribute(): string
     {
-        return number_format($this->file_size_mb, 1) . ' MB';
+        return number_format($this->file_size_mb, 1).' MB';
     }
 }

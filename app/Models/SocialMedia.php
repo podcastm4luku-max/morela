@@ -77,6 +77,7 @@ class SocialMedia extends Model
     public function getBadgeColorAttribute(): string
     {
         $slug = strtolower($this->slug ?: Str::slug($this->name));
+
         return match ($slug) {
             'instagram' => 'bg-pink-100 text-pink-700 border-pink-200',
             'facebook' => 'bg-blue-100 text-blue-700 border-blue-200',

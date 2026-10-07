@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\SocialMedia;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class SocialMediaController extends Controller
@@ -20,8 +20,8 @@ class SocialMediaController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('username', 'like', "%{$search}%")
-                  ->orWhere('url', 'like', "%{$search}%");
+                    ->orWhere('username', 'like', "%{$search}%")
+                    ->orWhere('url', 'like', "%{$search}%");
             });
         }
 
@@ -47,6 +47,7 @@ class SocialMediaController extends Controller
     public function create()
     {
         $nextOrder = (SocialMedia::max('sort_order') ?? 0) + 1;
+
         return view('admin.social_media.create', compact('nextOrder'));
     }
 
@@ -56,27 +57,27 @@ class SocialMediaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'        => 'required|string|max:100',
-            'slug'        => 'nullable|string|max:100|unique:social_media,slug',
-            'icon'        => 'required|string|max:50',
-            'url'         => 'required|url|max:255',
-            'username'    => 'nullable|string|max:100',
+            'name' => 'required|string|max:100',
+            'slug' => 'nullable|string|max:100|unique:social_media,slug',
+            'icon' => 'required|string|max:50',
+            'url' => 'required|url|max:255',
+            'username' => 'nullable|string|max:100',
             'description' => 'nullable|string|max:500',
-            'sort_order'  => 'required|integer|min:0',
-            'is_active'   => 'nullable|boolean',
+            'sort_order' => 'required|integer|min:0',
+            'is_active' => 'nullable|boolean',
         ], [
             'name.required' => 'Nama platform media sosial wajib diisi.',
-            'url.required'  => 'Tautan URL profil wajib diisi.',
-            'url.url'       => 'Format URL tidak valid (harus diawali http:// atau https://).',
+            'url.required' => 'Tautan URL profil wajib diisi.',
+            'url.url' => 'Format URL tidak valid (harus diawali http:// atau https://).',
             'icon.required' => 'Ikon media sosial wajib dipilih.',
-            'slug.unique'   => 'Slug sudah digunakan oleh platform lain.',
+            'slug.unique' => 'Slug sudah digunakan oleh platform lain.',
         ]);
 
-        $validated['slug'] = !empty($validated['slug']) 
-            ? Str::slug($validated['slug']) 
+        $validated['slug'] = ! empty($validated['slug'])
+            ? Str::slug($validated['slug'])
             : Str::slug($validated['name']);
 
-        $validated['is_active'] = $request->has('is_active') ? (bool)$request->is_active : false;
+        $validated['is_active'] = $request->has('is_active') ? (bool) $request->is_active : false;
 
         SocialMedia::create($validated);
 
@@ -90,6 +91,7 @@ class SocialMediaController extends Controller
     public function edit($id)
     {
         $social = SocialMedia::findOrFail($id);
+
         return view('admin.social_media.edit', compact('social'));
     }
 
@@ -101,27 +103,27 @@ class SocialMediaController extends Controller
         $social = SocialMedia::findOrFail($id);
 
         $validated = $request->validate([
-            'name'        => 'required|string|max:100',
-            'slug'        => "nullable|string|max:100|unique:social_media,slug,{$id}",
-            'icon'        => 'required|string|max:50',
-            'url'         => 'required|url|max:255',
-            'username'    => 'nullable|string|max:100',
+            'name' => 'required|string|max:100',
+            'slug' => "nullable|string|max:100|unique:social_media,slug,{$id}",
+            'icon' => 'required|string|max:50',
+            'url' => 'required|url|max:255',
+            'username' => 'nullable|string|max:100',
             'description' => 'nullable|string|max:500',
-            'sort_order'  => 'required|integer|min:0',
-            'is_active'   => 'nullable|boolean',
+            'sort_order' => 'required|integer|min:0',
+            'is_active' => 'nullable|boolean',
         ], [
             'name.required' => 'Nama platform media sosial wajib diisi.',
-            'url.required'  => 'Tautan URL profil wajib diisi.',
-            'url.url'       => 'Format URL tidak valid (harus diawali http:// atau https://).',
+            'url.required' => 'Tautan URL profil wajib diisi.',
+            'url.url' => 'Format URL tidak valid (harus diawali http:// atau https://).',
             'icon.required' => 'Ikon media sosial wajib dipilih.',
-            'slug.unique'   => 'Slug sudah digunakan oleh platform lain.',
+            'slug.unique' => 'Slug sudah digunakan oleh platform lain.',
         ]);
 
-        $validated['slug'] = !empty($validated['slug']) 
-            ? Str::slug($validated['slug']) 
+        $validated['slug'] = ! empty($validated['slug'])
+            ? Str::slug($validated['slug'])
             : Str::slug($validated['name']);
 
-        $validated['is_active'] = $request->has('is_active') ? (bool)$request->is_active : false;
+        $validated['is_active'] = $request->has('is_active') ? (bool) $request->is_active : false;
 
         $social->update($validated);
 
@@ -148,7 +150,7 @@ class SocialMediaController extends Controller
     public function toggleStatus($id)
     {
         $social = SocialMedia::findOrFail($id);
-        $social->is_active = !$social->is_active;
+        $social->is_active = ! $social->is_active;
         $social->save();
 
         $statusText = $social->is_active ? 'diaktifkan' : 'dinonaktifkan';

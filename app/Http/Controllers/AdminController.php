@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Destination;
-use App\Models\TicketBooking;
-use App\Models\SocialMedia;
 use App\Models\GalleryVideo;
+use App\Models\SocialMedia;
+use App\Models\TicketBooking;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -43,6 +43,7 @@ class AdminController extends Controller
     {
         $bookings = TicketBooking::with('destination')->latest()->paginate(15);
         $totalRevenue = TicketBooking::whereIn('payment_status', ['paid', 'checked_in'])->sum('total_amount');
+
         return view('admin.tickets', compact('bookings', 'totalRevenue'));
     }
 
@@ -53,7 +54,7 @@ class AdminController extends Controller
 
         $booking = TicketBooking::where('booking_code', $code)->first();
 
-        if (!$booking) {
+        if (! $booking) {
             return back()->with('error', "Kode booking {$code} tidak ditemukan.");
         }
 

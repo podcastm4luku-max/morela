@@ -21,9 +21,10 @@ class AppSettingController extends Controller
                 ['value' => $value]
             );
         }
+
         return response()->json([
             'message' => 'Settings updated successfully',
-            'data' => AppSetting::pluck('value', 'key')
+            'data' => AppSetting::pluck('value', 'key'),
         ]);
     }
 }

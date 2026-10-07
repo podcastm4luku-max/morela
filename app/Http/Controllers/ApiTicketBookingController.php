@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\TicketBooking;
 use App\Models\Destination;
+use App\Models\TicketBooking;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ApiTicketBookingController extends Controller
@@ -25,7 +25,7 @@ class ApiTicketBookingController extends Controller
         ]);
 
         $destination = Destination::find($validated['destination_id']);
-        if (!$destination) {
+        if (! $destination) {
             return response()->json(['success' => false, 'message' => 'Destinasi tidak ditemukan.'], 404);
         }
 
@@ -36,7 +36,7 @@ class ApiTicketBookingController extends Controller
         $dateStr = date('ymd', strtotime($validated['visit_date']));
         $randomSuffix = rand(1000, 9999);
         $booking_code = "MOR-{$dateStr}-{$randomSuffix}";
-        $qr_validation_code = "VALID-{$booking_code}-" . Str::random(8);
+        $qr_validation_code = "VALID-{$booking_code}-".Str::random(8);
 
         $booking = TicketBooking::create([
             'booking_code' => $booking_code,
@@ -59,7 +59,7 @@ class ApiTicketBookingController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Booking berhasil dibuat',
-            'data' => $booking->load('destination')
+            'data' => $booking->load('destination'),
         ], 201);
     }
 
@@ -67,13 +67,13 @@ class ApiTicketBookingController extends Controller
     public function show($bookingCode)
     {
         $booking = TicketBooking::where('booking_code', $bookingCode)->with('destination')->first();
-        if (!$booking) {
+        if (! $booking) {
             return response()->json(['success' => false, 'message' => 'Tiket tidak ditemukan'], 404);
         }
 
         return response()->json([
             'success' => true,
-            'data' => $booking
+            'data' => $booking,
         ]);
     }
 
@@ -84,7 +84,7 @@ class ApiTicketBookingController extends Controller
     {
         return response()->json([
             'success' => true,
-            'data' => TicketBooking::with('destination')->latest()->get()
+            'data' => TicketBooking::with('destination')->latest()->get(),
         ]);
     }
 
@@ -96,21 +96,21 @@ class ApiTicketBookingController extends Controller
         // Format is often bookingCode or qr_validation_code depending on the QR
         // Let's check both
         $booking = TicketBooking::where('qr_validation_code', $request->qr_code)
-                    ->orWhere('booking_code', $request->qr_code)
-                    ->with('destination')
-                    ->first();
+            ->orWhere('booking_code', $request->qr_code)
+            ->with('destination')
+            ->first();
 
-        if (!$booking) {
+        if (! $booking) {
             return response()->json([
                 'success' => false,
-                'message' => 'QR Code tidak valid atau tiket tidak ditemukan.'
+                'message' => 'QR Code tidak valid atau tiket tidak ditemukan.',
             ], 404);
         }
 
         return response()->json([
             'success' => true,
             'message' => 'Tiket valid',
-            'data' => $booking
+            'data' => $booking,
         ]);
     }
 
@@ -118,8 +118,8 @@ class ApiTicketBookingController extends Controller
     public function checkIn($bookingCode)
     {
         $booking = TicketBooking::where('booking_code', $bookingCode)->first();
-        
-        if (!$booking) {
+
+        if (! $booking) {
             return response()->json(['success' => false, 'message' => 'Tiket tidak ditemukan.'], 404);
         }
 
@@ -134,7 +134,7 @@ class ApiTicketBookingController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Berhasil check-in.',
-            'data' => $booking->load('destination')
+            'data' => $booking->load('destination'),
         ]);
     }
 
@@ -142,10 +142,10 @@ class ApiTicketBookingController extends Controller
     public function updateStatus(Request $request, $bookingCode)
     {
         $request->validate(['status' => 'required|in:pending,paid,checked_in,cancelled']);
-        
+
         $booking = TicketBooking::where('booking_code', $bookingCode)->first();
-        
-        if (!$booking) {
+
+        if (! $booking) {
             return response()->json(['success' => false, 'message' => 'Tiket tidak ditemukan.'], 404);
         }
 
@@ -158,7 +158,7 @@ class ApiTicketBookingController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Status berhasil diubah.',
-            'data' => $booking->load('destination')
+            'data' => $booking->load('destination'),
         ]);
     }
 }

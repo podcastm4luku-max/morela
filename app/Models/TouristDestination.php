@@ -31,9 +31,9 @@ class TouristDestination extends Model
     protected function casts(): array
     {
         return [
-            'latitude'   => 'decimal:7',
-            'longitude'  => 'decimal:7',
-            'is_active'  => 'boolean',
+            'latitude' => 'decimal:7',
+            'longitude' => 'decimal:7',
+            'is_active' => 'boolean',
             'sort_order' => 'integer',
         ];
     }
@@ -54,7 +54,7 @@ class TouristDestination extends Model
      */
     public function getNavigationUrlAttribute(): string
     {
-        if (!empty($this->google_maps_url)) {
+        if (! empty($this->google_maps_url)) {
             return $this->google_maps_url;
         }
 

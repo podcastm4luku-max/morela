@@ -1,4 +1,5 @@
 <?php
+
 use App\Models\TouristRoute;
 
 $r = TouristRoute::create([
@@ -7,7 +8,7 @@ $r = TouristRoute::create([
     'description' => 'Test',
     'difficulty_level' => 'mudah',
     'estimated_duration' => '2 Jam',
-    'published' => true
+    'published' => true,
 ]);
 echo $r->id ? "CREATE OK\n" : "FAIL\n";
 $r->update(['name' => 'Test Update']);

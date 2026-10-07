@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Destination;
+use Illuminate\Http\Request;
 
 class DestinationController extends Controller
 {
@@ -17,14 +17,15 @@ class DestinationController extends Controller
         }
 
         if ($search = $request->query('search')) {
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('tagline', 'like', "%{$search}%")
-                  ->orWhere('location', 'like', "%{$search}%");
+                    ->orWhere('tagline', 'like', "%{$search}%")
+                    ->orWhere('location', 'like', "%{$search}%");
             });
         }
 
         $destinations = $query->latest()->paginate(9);
+
         return view('destinations.index', compact('destinations', 'category'));
     }
 
@@ -43,9 +44,9 @@ class DestinationController extends Controller
     public function qrCode($slug)
     {
         $destination = Destination::where('slug', $slug)->firstOrFail();
+
         return view('destinations.qr', compact('destination'));
     }
-
 
     public function create()
     {
@@ -67,12 +68,14 @@ class DestinationController extends Controller
         ]);
 
         Destination::create($validated);
+
         return redirect()->route('admin.destinations.index')->with('success', 'Destination created.');
     }
 
     public function edit($id)
     {
         $destination = Destination::findOrFail($id);
+
         return view('admin.destinations.edit', compact('destination'));
     }
 
@@ -81,7 +84,7 @@ class DestinationController extends Controller
         $destination = Destination::findOrFail($id);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:destinations,slug,' . $destination->id,
+            'slug' => 'required|string|max:255|unique:destinations,slug,'.$destination->id,
             'category' => 'required|in:pantai,alam,pemandangan,religi_sejarah,budaya',
             'tagline' => 'required|string|max:255',
             'description' => 'required|string',
@@ -92,6 +95,7 @@ class DestinationController extends Controller
         ]);
 
         $destination->update($validated);
+
         return redirect()->route('admin.destinations.index')->with('success', 'Destination updated.');
     }
 
@@ -99,7 +103,7 @@ class DestinationController extends Controller
     {
         $destination = Destination::findOrFail($id);
         $destination->delete();
+
         return redirect()->route('admin.destinations.index')->with('success', 'Destination deleted.');
     }
-
 }

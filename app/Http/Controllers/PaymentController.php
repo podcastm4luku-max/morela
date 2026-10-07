@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\TicketBooking;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -13,8 +13,8 @@ class PaymentController extends Controller
     public function createPayment(Request $request, $bookingCode)
     {
         $booking = TicketBooking::where('booking_code', $bookingCode)->first();
-        
-        if (!$booking) {
+
+        if (! $booking) {
             return response()->json(['success' => false, 'message' => 'Booking not found'], 404);
         }
 
@@ -28,8 +28,8 @@ class PaymentController extends Controller
                 'data' => [
                     'payment_url' => null,
                     'payment_method' => 'cash_on_site',
-                    'message' => 'Pay at the location'
-                ]
+                    'message' => 'Pay at the location',
+                ],
             ]);
         }
 
@@ -37,9 +37,9 @@ class PaymentController extends Controller
         $va = env('IPAYMU_VA');
         $apiKey = env('IPAYMU_KEY');
         $url = env('IPAYMU_URL', 'https://sandbox.ipaymu.com/api/v2/payment');
-        
+
         $body = [
-            'product' => ['Ticket Booking ' . $booking->booking_code],
+            'product' => ['Ticket Booking '.$booking->booking_code],
             'qty' => [1],
             'price' => [$booking->total_amount],
             'returnUrl' => url('/api/payment/success'),
@@ -55,14 +55,14 @@ class PaymentController extends Controller
         // Create signature
         $jsonBody = json_encode($body, JSON_UNESCAPED_SLASHES);
         $requestBody = strtolower(hash('sha256', $jsonBody));
-        $stringToSign = 'POST:' . $va . ':' . $requestBody . ':' . $apiKey;
+        $stringToSign = 'POST:'.$va.':'.$requestBody.':'.$apiKey;
         $signature = hash_hmac('sha256', $stringToSign, $apiKey);
 
         try {
             $response = Http::withHeaders([
                 'va' => $va,
                 'signature' => $signature,
-                'Content-Type' => 'application/json'
+                'Content-Type' => 'application/json',
             ])->post($url, $body);
 
             $resData = $response->json();
@@ -72,16 +72,18 @@ class PaymentController extends Controller
                     'success' => true,
                     'data' => [
                         'payment_url' => $resData['Data']['Url'],
-                        'session_id' => $resData['Data']['SessionID']
-                    ]
+                        'session_id' => $resData['Data']['SessionID'],
+                    ],
                 ]);
             } else {
                 Log::error('iPaymu Error', ['response' => $resData]);
+
                 // Fallback for sandbox simulation since we don't have real keys
                 return $this->simulateSandboxPayment($booking);
             }
         } catch (\Exception $e) {
-            Log::error('Payment creation failed: ' . $e->getMessage());
+            Log::error('Payment creation failed: '.$e->getMessage());
+
             return $this->simulateSandboxPayment($booking);
         }
     }
@@ -92,9 +94,9 @@ class PaymentController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'payment_url' => 'https://sandbox.ipaymu.com/simulate/' . $booking->booking_code,
-                'session_id' => 'SANDBOX-' . uniqid()
-            ]
+                'payment_url' => 'https://sandbox.ipaymu.com/simulate/'.$booking->booking_code,
+                'session_id' => 'SANDBOX-'.uniqid(),
+            ],
         ]);
     }
 
@@ -104,8 +106,9 @@ class PaymentController extends Controller
             'qris' => 'qris',
             'va_bca' => 'bca',
             'va_mandiri' => 'mandiri',
-            'va_maluku' => 'cimb' // Placeholder
+            'va_maluku' => 'cimb', // Placeholder
         ];
+
         return $map[$method] ?? 'qris';
     }
 
@@ -119,13 +122,13 @@ class PaymentController extends Controller
 
         Log::info('Payment Callback Received', $request->all());
 
-        if (!$reference_id) {
+        if (! $reference_id) {
             return response()->json(['success' => false, 'message' => 'Missing reference_id'], 400);
         }
 
         $booking = TicketBooking::where('booking_code', $reference_id)->first();
 
-        if (!$booking) {
+        if (! $booking) {
             return response()->json(['success' => false, 'message' => 'Booking not found'], 404);
         }
 
@@ -137,7 +140,7 @@ class PaymentController extends Controller
             $booking->payment_status = 'paid';
             $booking->paid_at = now();
             $booking->save();
-        } else if (strtolower($status) === 'expired' || strtolower($status) === 'batal') {
+        } elseif (strtolower($status) === 'expired' || strtolower($status) === 'batal') {
             $booking->payment_status = strtolower($status) === 'batal' ? 'cancelled' : 'expired';
             $booking->save();
         }
@@ -149,14 +152,15 @@ class PaymentController extends Controller
     public function status($bookingCode)
     {
         $booking = TicketBooking::where('booking_code', $bookingCode)->first();
-        if (!$booking) {
+        if (! $booking) {
             return response()->json(['success' => false], 404);
         }
+
         return response()->json([
             'success' => true,
             'data' => [
-                'payment_status' => $booking->payment_status
-            ]
+                'payment_status' => $booking->payment_status,
+            ],
         ]);
     }
 
@@ -165,8 +169,9 @@ class PaymentController extends Controller
     {
         $request->merge([
             'reference_id' => $bookingCode,
-            'status' => 'berhasil'
+            'status' => 'berhasil',
         ]);
+
         return $this->callback($request);
     }
 }

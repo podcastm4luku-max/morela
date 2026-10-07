@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\TouristRoute;
 use App\Models\TouristDestination;
+use App\Models\TouristRoute;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class TouristRouteController extends Controller
@@ -21,9 +21,9 @@ class TouristRouteController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhere('start_name', 'like', "%{$search}%")
-                  ->orWhere('end_name', 'like', "%{$search}%");
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('start_name', 'like', "%{$search}%")
+                    ->orWhere('end_name', 'like', "%{$search}%");
             });
         }
 
@@ -60,34 +60,34 @@ class TouristRouteController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'            => 'required|string|max:200',
-            'slug'            => 'nullable|string|max:200|unique:tourist_routes,slug',
-            'description'     => 'nullable|string',
-            'start_name'      => 'required|string|max:150',
-            'start_latitude'  => ['required', 'numeric', 'between:-90,90'],
+            'name' => 'required|string|max:200',
+            'slug' => 'nullable|string|max:200|unique:tourist_routes,slug',
+            'description' => 'nullable|string',
+            'start_name' => 'required|string|max:150',
+            'start_latitude' => ['required', 'numeric', 'between:-90,90'],
             'start_longitude' => ['required', 'numeric', 'between:-180,180'],
-            'end_name'        => 'required|string|max:150',
-            'end_latitude'    => ['required', 'numeric', 'between:-90,90'],
-            'end_longitude'   => ['required', 'numeric', 'between:-180,180'],
-            'distance'        => 'nullable|string|max:50',
-            'duration'        => 'nullable|string|max:50',
+            'end_name' => 'required|string|max:150',
+            'end_latitude' => ['required', 'numeric', 'between:-90,90'],
+            'end_longitude' => ['required', 'numeric', 'between:-180,180'],
+            'distance' => 'nullable|string|max:50',
+            'duration' => 'nullable|string|max:50',
             'google_maps_url' => 'nullable|url|max:500',
-            'is_active'       => 'nullable|boolean',
-            'sort_order'      => 'nullable|integer|min:1',
-            'destinations'    => 'nullable|array',
-            'destinations.*'  => 'exists:tourist_destinations,id',
+            'is_active' => 'nullable|boolean',
+            'sort_order' => 'nullable|integer|min:1',
+            'destinations' => 'nullable|array',
+            'destinations.*' => 'exists:tourist_destinations,id',
             'destination_orders' => 'nullable|array',
         ], [
-            'name.required'           => 'Nama rute wisata wajib diisi.',
-            'start_name.required'     => 'Nama titik awal perjalanan wajib diisi.',
+            'name.required' => 'Nama rute wisata wajib diisi.',
+            'start_name.required' => 'Nama titik awal perjalanan wajib diisi.',
             'start_latitude.required' => 'Latitude titik awal wajib diisi.',
-            'start_longitude.required'=> 'Longitude titik awal wajib diisi.',
-            'end_name.required'       => 'Nama titik akhir perjalanan wajib diisi.',
-            'end_latitude.required'   => 'Latitude titik akhir wajib diisi.',
-            'end_longitude.required'  => 'Longitude titik akhir wajib diisi.',
+            'start_longitude.required' => 'Longitude titik awal wajib diisi.',
+            'end_name.required' => 'Nama titik akhir perjalanan wajib diisi.',
+            'end_latitude.required' => 'Latitude titik akhir wajib diisi.',
+            'end_longitude.required' => 'Longitude titik akhir wajib diisi.',
         ]);
 
-        $slug = !empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($validated['name']);
+        $slug = ! empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($validated['name']);
         $baseSlug = $slug;
         $count = 1;
         while (TouristRoute::where('slug', $slug)->exists()) {
@@ -96,24 +96,24 @@ class TouristRouteController extends Controller
         }
 
         $route = TouristRoute::create([
-            'name'            => $validated['name'],
-            'slug'            => $slug,
-            'description'     => $validated['description'] ?? null,
-            'start_name'      => $validated['start_name'],
-            'start_latitude'  => $validated['start_latitude'],
+            'name' => $validated['name'],
+            'slug' => $slug,
+            'description' => $validated['description'] ?? null,
+            'start_name' => $validated['start_name'],
+            'start_latitude' => $validated['start_latitude'],
             'start_longitude' => $validated['start_longitude'],
-            'end_name'        => $validated['end_name'],
-            'end_latitude'    => $validated['end_latitude'],
-            'end_longitude'   => $validated['end_longitude'],
-            'distance'        => $validated['distance'] ?? null,
-            'duration'        => $validated['duration'] ?? null,
+            'end_name' => $validated['end_name'],
+            'end_latitude' => $validated['end_latitude'],
+            'end_longitude' => $validated['end_longitude'],
+            'distance' => $validated['distance'] ?? null,
+            'duration' => $validated['duration'] ?? null,
             'google_maps_url' => $validated['google_maps_url'] ?? null,
-            'is_active'       => $request->has('is_active') ? (bool) $request->input('is_active') : true,
-            'sort_order'      => $validated['sort_order'] ?? ((TouristRoute::max('sort_order') ?? 0) + 1),
+            'is_active' => $request->has('is_active') ? (bool) $request->input('is_active') : true,
+            'sort_order' => $validated['sort_order'] ?? ((TouristRoute::max('sort_order') ?? 0) + 1),
         ]);
 
         // Hubungkan destinasi yang dilewati dengan urutan sort_order
-        if (!empty($validated['destinations'])) {
+        if (! empty($validated['destinations'])) {
             $syncData = [];
             $orders = $request->input('destination_orders', []);
             foreach ($validated['destinations'] as $index => $destId) {
@@ -157,47 +157,47 @@ class TouristRouteController extends Controller
         $route = TouristRoute::findOrFail($id);
 
         $validated = $request->validate([
-            'name'            => 'required|string|max:200',
-            'slug'            => "nullable|string|max:200|unique:tourist_routes,slug,{$id}",
-            'description'     => 'nullable|string',
-            'start_name'      => 'required|string|max:150',
-            'start_latitude'  => ['required', 'numeric', 'between:-90,90'],
+            'name' => 'required|string|max:200',
+            'slug' => "nullable|string|max:200|unique:tourist_routes,slug,{$id}",
+            'description' => 'nullable|string',
+            'start_name' => 'required|string|max:150',
+            'start_latitude' => ['required', 'numeric', 'between:-90,90'],
             'start_longitude' => ['required', 'numeric', 'between:-180,180'],
-            'end_name'        => 'required|string|max:150',
-            'end_latitude'    => ['required', 'numeric', 'between:-90,90'],
-            'end_longitude'   => ['required', 'numeric', 'between:-180,180'],
-            'distance'        => 'nullable|string|max:50',
-            'duration'        => 'nullable|string|max:50',
+            'end_name' => 'required|string|max:150',
+            'end_latitude' => ['required', 'numeric', 'between:-90,90'],
+            'end_longitude' => ['required', 'numeric', 'between:-180,180'],
+            'distance' => 'nullable|string|max:50',
+            'duration' => 'nullable|string|max:50',
             'google_maps_url' => 'nullable|url|max:500',
-            'is_active'       => 'nullable|boolean',
-            'sort_order'      => 'nullable|integer|min:1',
-            'destinations'    => 'nullable|array',
-            'destinations.*'  => 'exists:tourist_destinations,id',
+            'is_active' => 'nullable|boolean',
+            'sort_order' => 'nullable|integer|min:1',
+            'destinations' => 'nullable|array',
+            'destinations.*' => 'exists:tourist_destinations,id',
             'destination_orders' => 'nullable|array',
         ]);
 
-        $slug = !empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($validated['name']);
+        $slug = ! empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($validated['name']);
 
         $route->update([
-            'name'            => $validated['name'],
-            'slug'            => $slug,
-            'description'     => $validated['description'] ?? null,
-            'start_name'      => $validated['start_name'],
-            'start_latitude'  => $validated['start_latitude'],
+            'name' => $validated['name'],
+            'slug' => $slug,
+            'description' => $validated['description'] ?? null,
+            'start_name' => $validated['start_name'],
+            'start_latitude' => $validated['start_latitude'],
             'start_longitude' => $validated['start_longitude'],
-            'end_name'        => $validated['end_name'],
-            'end_latitude'    => $validated['end_latitude'],
-            'end_longitude'   => $validated['end_longitude'],
-            'distance'        => $validated['distance'] ?? null,
-            'duration'        => $validated['duration'] ?? null,
+            'end_name' => $validated['end_name'],
+            'end_latitude' => $validated['end_latitude'],
+            'end_longitude' => $validated['end_longitude'],
+            'distance' => $validated['distance'] ?? null,
+            'duration' => $validated['duration'] ?? null,
             'google_maps_url' => $validated['google_maps_url'] ?? null,
-            'is_active'       => $request->has('is_active') ? (bool) $request->input('is_active') : false,
-            'sort_order'      => $validated['sort_order'] ?? $route->sort_order,
+            'is_active' => $request->has('is_active') ? (bool) $request->input('is_active') : false,
+            'sort_order' => $validated['sort_order'] ?? $route->sort_order,
         ]);
 
         // Sync destinasi
         $syncData = [];
-        if (!empty($validated['destinations'])) {
+        if (! empty($validated['destinations'])) {
             $orders = $request->input('destination_orders', []);
             foreach ($validated['destinations'] as $index => $destId) {
                 $syncData[$destId] = [
@@ -237,10 +237,11 @@ class TouristRouteController extends Controller
     public function toggleStatus($id)
     {
         $route = TouristRoute::findOrFail($id);
-        $route->is_active = !$route->is_active;
+        $route->is_active = ! $route->is_active;
         $route->save();
 
         $statusText = $route->is_active ? 'diaktifkan' : 'dinonaktifkan';
+
         return redirect()->back()
             ->with('success', "Status rute '{$route->name}' berhasil {$statusText}.");
     }

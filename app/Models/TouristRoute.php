@@ -37,10 +37,10 @@ class TouristRoute extends Model
         return [
             'start_latitude' => 'decimal:7',
             'start_longitude' => 'decimal:7',
-            'end_latitude'   => 'decimal:7',
-            'end_longitude'  => 'decimal:7',
-            'is_active'      => 'boolean',
-            'sort_order'     => 'integer',
+            'end_latitude' => 'decimal:7',
+            'end_longitude' => 'decimal:7',
+            'is_active' => 'boolean',
+            'sort_order' => 'integer',
         ];
     }
 
@@ -60,7 +60,7 @@ class TouristRoute extends Model
      */
     public function getNavigationUrlAttribute(): string
     {
-        if (!empty($this->google_maps_url)) {
+        if (! empty($this->google_maps_url)) {
             return $this->google_maps_url;
         }
 
@@ -72,8 +72,8 @@ class TouristRoute extends Model
         })->implode('|');
 
         $url = "https://www.google.com/maps/dir/?api=1&origin={$origin}&destination={$destination}";
-        if (!empty($waypoints)) {
-            $url .= "&waypoints=" . urlencode($waypoints);
+        if (! empty($waypoints)) {
+            $url .= '&waypoints='.urlencode($waypoints);
         }
 
         return $url;
