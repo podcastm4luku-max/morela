@@ -122,7 +122,7 @@ class GalleryVideoController extends Controller
             'is_published' => true,
         ]);
 
-        return redirect()->route('admin.gallery-videos.index')
+        return redirect()->route('admin.gallery-videos.index', ['t' => time()])
             ->with('success', "Video '{$validated['title']}' berhasil diunggah (Ukuran: {$fileSizeMb} MB / Maks. 500MB)!");
     }
 
@@ -208,7 +208,7 @@ class GalleryVideoController extends Controller
 
         $video->save();
 
-        return redirect()->route('admin.gallery-videos.index')
+        return redirect()->route('admin.gallery-videos.index', ['t' => time()])
             ->with('success', "Data video '{$video->title}' berhasil diperbarui!");
     }
 
@@ -228,7 +228,7 @@ class GalleryVideoController extends Controller
 
         $video->delete();
 
-        return redirect()->route('admin.gallery-videos.index')
+        return redirect()->route('admin.gallery-videos.index', ['t' => time()])
             ->with('success', "Video '{$title}' berhasil dihapus.");
     }
 }

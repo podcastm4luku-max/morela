@@ -70,7 +70,7 @@ class GalleryController extends Controller
             'is_published' => $request->has('is_published') ? (bool) $request->input('is_published') : true,
         ]);
 
-        return redirect()->route('admin.gallery.index')->with('success', 'Data gambar berhasil disimpan.');
+        return redirect()->route('admin.gallery.index', ['t' => time()])->with('success', 'Data gambar berhasil disimpan.');
     }
 
     public function edit($id)
@@ -124,7 +124,7 @@ class GalleryController extends Controller
 
         $image->save();
 
-        return redirect()->route('admin.gallery.index')->with('success', 'Data gambar berhasil diperbarui.');
+        return redirect()->route('admin.gallery.index', ['t' => time()])->with('success', 'Data gambar berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -139,6 +139,6 @@ class GalleryController extends Controller
 
         $image->delete();
 
-        return redirect()->route('admin.gallery.index')->with('success', 'Data gambar berhasil dihapus.');
+        return redirect()->route('admin.gallery.index', ['t' => time()])->with('success', 'Data gambar berhasil dihapus.');
     }
 }
