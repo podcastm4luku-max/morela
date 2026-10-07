@@ -74,7 +74,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('news', NewsController::class)->except(['index', 'show']);
     Route::resource('events', EventController::class)->except(['index', 'show']);
     Route::resource('culture', CultureController::class)->except(['index', 'show']);
-    Route::resource('gallery', GalleryController::class)->except(['index', 'show']);
+    Route::resource('gallery', GalleryController::class);
 
     // CRUD Media Sosial Desa (Promosi & Kontak Resmi)
     Route::resource('social-media', SocialMediaController::class);

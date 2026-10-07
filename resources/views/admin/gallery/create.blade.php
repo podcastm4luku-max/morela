@@ -22,6 +22,17 @@
     </div>
 
     <div class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-xs">
+        @if ($errors->any())
+        <div class="mb-6 p-4 bg-rose-50 border border-rose-200 rounded-2xl text-xs text-rose-700">
+            <strong class="block mb-2 font-bold">Terjadi Kesalahan:</strong>
+            <ul class="list-disc pl-5 space-y-1">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <form method="POST" action="{{ route('admin.gallery.store') }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
